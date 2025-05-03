@@ -445,7 +445,7 @@ nav ul li a:hover {
 
 .testimonial::before {
     content: """;
-    font-size: 5rem;
+    font-size 5rem;
     position: absolute;
     top: -20px;
     left: 10px;

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcard Master - Study Smarter</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Flashcard Master</h1>
+            <p>Your smart study companion</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li class="cta-button"><a href="#flashcard-app">Try Now</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section id="hero">
+            <div class="container">
+                <div class="hero-text">
+                    <h2>Study Smarter, Not Harder</h2>
+                    <p>Create, practice, and master flashcards with our AI-powered spaced repetition system.</p>
+                    <a href="#flashcard-app" class="cta-button">Start Learning</a>
+                </div>
+                <div class="hero-image">
+                    <img src="https://via.placeholder.com/400x300" alt="Flashcard app screenshot">
+                </div>
+            </div>
+        </section>
+
+        <section id="features">
+            <div class="container">
+                <h2>Powerful Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-brain"></i>
+                        <h3>Spaced Repetition</h3>
+                        <p>Our algorithm shows you cards at the optimal time for memory retention.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-robot"></i>
+                        <h3>AI Assistance</h3>
+                        <p>Generate flashcards automatically from your notes or textbooks.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Progress Tracking</h3>
+                        <p>Visualize your learning progress with detailed analytics.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="flashcard-app">
+            <div class="container">
+                <h2>Try Our Flashcard App</h2>
+                <div class="flashcard-container">
+                    <div class="flashcard-controls">
+                        <button id="new-card-btn">New Card</button>
+                        <button id="flip-card-btn">Flip Card</button>
+                        <button id="save-card-btn">Save Card</button>
+                    </div>
+                    <div class="flashcard" id="flashcard">
+                        <div class="flashcard-front">
+                            <textarea placeholder="Enter term/question..." id="front-text"></textarea>
+                        </div>
+                        <div class="flashcard-back">
+                            <textarea placeholder="Enter definition/answer..." id="back-text"></textarea>
+                        </div>
+                    </div>
+                    <div class="flashcard-actions">
+                        <button id="easy-btn">Easy</button>
+                        <button id="medium-btn">Medium</button>
+                        <button id="hard-btn">Hard</button>
+                    </div>
+                </div>
+                <div class="saved-cards">
+                    <h3>Your Saved Flashcards</h3>
+                    <ul id="saved-cards-list"></ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-it-works">
+            <div class="container">
+                <h2>How It Works</h2>
+                <ol class="steps">
+                    <li>Create your flashcards or import from existing materials</li>
+                    <li>Practice with our smart repetition system</li>
+                    <li>Track your progress and identify weak areas</li>
+                    <li>Ace your exams with confidence</li>
+                </ol>
+            </div>
+        </section>
+
+        <section id="pricing">
+            <div class="container">
+                <h2>Simple Pricing</h2>
+                <div class="pricing-cards">
+                    <div class="pricing-card">
+                        <h3>Free</h3>
+                        <p class="price">$0<span>/month</span></p>
+                        <ul>
+                            <li>Up to 50 flashcards</li>
+                            <li>Basic spaced repetition</li>
+                            <li>Community decks</li>
+                        </ul>
+                        <button>Get Started</button>
+                    </div>
+                    <div class="pricing-card featured">
+                        <h3>Pro</h3>
+                        <p class="price">$9<span>/month</span></p>
+                        <ul>
+                            <li>Unlimited flashcards</li>
+                            <li>Advanced analytics</li>
+                            <li>AI-generated cards</li>
+                            <li>Priority support</li>
+                        </ul>
+                        <button>Try 7 Days Free</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonials">
+            <div class="container">
+                <h2>What Students Say</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial">
+                        <p>"Flashcard Master helped me cut my study time in half while improving my grades!"</p>
+                        <p class="author">- Sarah, Medical Student</p>
+                    </div>
+                    <div class="testimonial">
+                        <p>"The spaced repetition algorithm is magical. I remember things without even trying."</p>
+                        <p class="author">- James, Law Student</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Flashcard Master. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

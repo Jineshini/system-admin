@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcard Master | Authentication</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --bg: #f9fafb;
+            --card-bg: #ffffff;
+            --border: #e5e7eb;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+        }
+
+        .auth-card {
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .logo {
+            margin-bottom: 1.5rem;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            background: none;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--text-light);
+            position: relative;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border);
+            font-size: 1rem;
+        }
+
+        .password-field {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: none;
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .auth-footer {
+            margin-top: 1.5rem;
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .auth-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .error-message {
+            color: var(--danger);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        /* Home Page Styles */
+        .home-container {
+            display: none;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .home-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .logout-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: none;
+            background-color: var(--danger);
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .get_start {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: none;
+            background-color: rgb(65, 96, 233);
+            color: rgb(255, 255, 255);
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .welcome-message {
+            background-color: var(--card-bg);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .welcome-message h2 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Authentication Container -->
+    <div class="auth-container" id="authContainer">
+        <div class="auth-card">
+            <div class="logo">
+                <i class="fa fa-book"></i>
+                <h1>Flashcard Master</h1>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" id="loginTab">Login</button>
+                <button class="tab-btn" id="signupTab">Sign Up</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                    <div class="error-message" id="loginEmailError"></div>
+                </div>
+
+                <div class="form-group password-field">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                    <button type="button" class="password-toggle" id="loginPasswordToggle">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <div class="error-message" id="loginPasswordError"></div>
+                </div>
+
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+
+            <!-- Signup Form -->
+            <form id="signupForm" style="display: none;">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" placeholder="Enter your full name" required>
+                    <div class="error-message" id="signupNameError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" placeholder="Enter your email" required>
+                    <div class="error-message" id="signupEmailError"></div>
+                </div>
+
+                <div class="form-group password-field">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" placeholder="Create a password" required>
+                    <button type="button" class="password-toggle" id="signupPasswordToggle">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <div class="error-message" id="signupPasswordError"></div>
+                </div>
+
+                <div class="form-group password-field">
+                    <label for="signupConfirmPassword">Confirm Password</label>
+                    <input type="password" id="signupConfirmPassword" placeholder="Confirm your password" required>
+                    <button type="button" class="password-toggle" id="signupConfirmPasswordToggle">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <div class="error-message" id="signupConfirmPasswordError"></div>
+                </div>
+
+                <button type="submit" class="btn-primary">Create Account</button>
+            </form>
+
+            <div class="auth-footer">
+                <span id="toggleText">Don't have an account?</span>
+                <a href="#" id="toggleLink">Sign up</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Home Page Container -->
+    <div class="home-container" id="homeContainer">
+        <div class="home-header">
+            <div class="logo">
+                <i class="fa fa-book"></i>
+                <h1>Flashcard Master</h1>
+            </div>
+            <div class="user-profile">
+                <img src="https://i.pravatar.cc/150?img=3" alt="User" id="userAvatar">
+                <span id="userName"></span>
+                <button class="logout-btn" id="logoutBtn">Logout</button>
+            </div>
+        </div>
+
+        <div class="welcome-message">
+            <h2>Welcome back, <span id="welcomeUserName"></span>!</h2>
+            <p>You have successfully logged in to Flashcard Master.</p>
+            <br>
+            <button onclick="window.location.href='index.html'" class="get_start" id="get_start">Get Start</button>
+        </div>
+        
+    </div>
+
+    <script>
+        // DOM Elements
+        const loginTab = document.getElementById('loginTab');
+        const signupTab = document.getElementById('signupTab');
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+        const toggleLink = document.getElementById('toggleLink');
+        const toggleText = document.getElementById('toggleText');
+        const authContainer = document.getElementById('authContainer');
+        const homeContainer = document.getElementById('homeContainer');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const welcomeUserName = document.getElementById('welcomeUserName');
+        const userName = document.getElementById('userName');
+        const userAvatar = document.getElementById('userAvatar');
+        const get_start = document.getElementById('get_start');
+
+        // Password toggle functionality
+        function setupPasswordToggle(inputId, toggleId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleBtn = document.getElementById(toggleId);
+            
+            toggleBtn.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                toggleBtn.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+            });
+        }
+
+        // Initialize password toggles
+        setupPasswordToggle('loginPassword', 'loginPasswordToggle');
+        setupPasswordToggle('signupPassword', 'signupPasswordToggle');
+        setupPasswordToggle('signupConfirmPassword', 'signupConfirmPasswordToggle');
+
+        // Tab switching
+        loginTab.addEventListener('click', function() {
+            loginTab.classList.add('active');
+            signupTab.classList.remove('active');
+            loginForm.style.display = 'block';
+            signupForm.style.display = 'none';
+            toggleText.textContent = "Don't have an account?";
+            toggleLink.textContent = "Sign up";
+        });
+
+        signupTab.addEventListener('click', function() {
+            signupTab.classList.add('active');
+            loginTab.classList.remove('active');
+            signupForm.style.display = 'block';
+            loginForm.style.display = 'none';
+            toggleText.textContent = "Already have an account?";
+            toggleLink.textContent = "Login";
+        });
+
+        toggleLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (loginTab.classList.contains('active')) {
+                signupTab.click();
+            } else {
+                loginTab.click();
+            }
+        });
+
+        // Form validation
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+
+        function hideError(elementId) {
+            document.getElementById(elementId).style.display = 'none';
+        }
+
+        // Login form submission
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Simple validation
+            let isValid = true;
+            
+            if (!email) {
+                showError('loginEmailError', 'Email is required');
+                isValid = false;
+            } else {
+                hideError('loginEmailError');
+            }
+            
+            if (!password) {
+                showError('loginPasswordError', 'Password is required');
+                isValid = false;
+            } else {
+                hideError('loginPasswordError');
+            }
+            
+            if (isValid) {
+                // Simulate login (in a real app, this would be an API call)
+                localStorage.setItem('loggedInUser', JSON.stringify({
+                    name: email.split('@')[0],
+                    email: email
+                }));
+                
+                // Redirect to home page
+                showHomePage();
+            }
+        });
+
+        // Signup form submission
+        signupForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            
+            // Validation
+            let isValid = true;
+            
+            if (!name) {
+                showError('signupNameError', 'Name is required');
+                isValid = false;
+            } else {
+                hideError('signupNameError');
+            }
+            
+            if (!email) {
+                showError('signupEmailError', 'Email is required');
+                isValid = false;
+            } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+                showError('signupEmailError', 'Invalid email format');
+                isValid = false;
+            } else {
+                hideError('signupEmailError');
+            }
+            
+            if (!password) {
+                showError('signupPasswordError', 'Password is required');
+                isValid = false;
+            } else if (password.length < 8) {
+                showError('signupPasswordError', 'Password must be at least 8 characters');
+                isValid = false;
+            } else {
+                hideError('signupPasswordError');
+            }
+            
+            if (password !== confirmPassword) {
+                showError('signupConfirmPasswordError', 'Passwords do not match');
+                isValid = false;
+            } else {
+                hideError('signupConfirmPasswordError');
+            }
+            
+            if (isValid) {
+                // Simulate signup (in a real app, this would be an API call)
+                localStorage.setItem('loggedInUser', JSON.stringify({
+                    name: name,
+                    email: email
+                }));
+                
+                // Redirect to home page
+                showHomePage();
+            }
+        });
+
+        // Logout functionality
+        logoutBtn.addEventListener('click', function() {
+            localStorage.removeItem('loggedInUser');
+            showAuthPage();
+        });
+
+        // Show home page
+        function showHomePage() {
+            const user = JSON.parse(localStorage.getItem('loggedInUser'));
+            if (user) {
+                welcomeUserName.textContent = user.name;
+                userName.textContent = user.name;
+                userAvatar.src = `https://i.pravatar.cc/150?u=${user.email}`;
+                authContainer.style.display = 'none';
+                homeContainer.style.display = 'block';
+            } else {
+                showAuthPage();
+            }
+        }
+
+        // Show auth page
+        function showAuthPage() {
+            authContainer.style.display = 'block';
+            homeContainer.style.display = 'none';
+            loginForm.reset();
+            signupForm.reset();
+            loginTab.click();
+        }
+
+        // Check if user is logged in on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('loggedInUser')) {
+                showHomePage();
+            } else {
+                showAuthPage();
+            }
+        });
+    </script>
+</body>
+</html>
